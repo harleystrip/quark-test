@@ -25,7 +25,11 @@ class EmailSentModal extends React.PureComponent<EmailSentModalProps>{
 
     render() {
         return (
-            <StyledModalComponent title={'Email Sent'} onCancel={() => this.handleModalClose()}/>
+            <StyledModalComponent title={'Email Sent'} onCancel={() => this.handleModalClose()}>
+                <StyledModalComponent.Body>
+                    <span className={'styled-modal-body-text'}>Thank you, instructions to reset your password have been e-mailed to the address you provided!</span>
+                </StyledModalComponent.Body>
+            </StyledModalComponent>
         );
     }
 }

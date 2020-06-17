@@ -2,26 +2,37 @@ import React from "react";
 
 declare interface StyledInputProps {
     value?: string,
-    onChange?: () => void,
-    variant: 'dark-active' | 'dark-inactive' | 'light',
-    type?: 'password' | null,
+    onChange?: (event: React.FormEvent<HTMLInputElement>) => void,
+    variant: 'dark' | 'light',
+    type?: 'password' | undefined,
     label: string
 }
 
-export default class StyledInputComponent extends React.PureComponent<StyledInputProps>{
+export default class StyledInputComponent extends React.PureComponent<StyledInputProps, {active: boolean}>{
+    constructor(props: StyledInputProps) {
+        super(props);
+        this.state = {
+            active: false
+        }
+    }
+
     render() {
         const {
             value,
             onChange,
             variant,
-            label
+            label,
+            type
         } = this.props;
+        const {
+            active
+        } = this.state;
         return (
-            <div>
-                <span>{label}</span>
-                <div className={`styled-input styled-input-${variant}`}>
-                    <input value={value} onChange={onChange} className={'styled-input-text'}/>
-                </div>
+            <div className={'styled-input-container'}>
+                <span className={'styled-input-label'}>{label}</span>
+                <input value={value} onChange={onChange} type={type} onFocus={() => this.setState({active: true})}
+                       onBlur={() => this.setState({active: false})}
+                       className={`styled-input styled-input-${variant}${active ? '-active' : ''} styled-input-text styled-input-text-${variant}`}/>
             </div>
         );
     }

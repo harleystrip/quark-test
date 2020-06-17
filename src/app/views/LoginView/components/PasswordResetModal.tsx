@@ -15,22 +15,26 @@ const mapDispatchToProps = (dispatch: AppDispatch) => {
 
 class PasswordResetModal extends React.PureComponent<PasswordResetModalProps> {
 
-    handleModalClose() {
+    handleModalClose(event: React.MouseEvent) {
+        event.preventDefault();
         this.props.changeModalState(null)
     }
 
-    handleSendEmail() {
+    handleSendEmail(event: React.MouseEvent) {
+        event.preventDefault();
         this.props.changeModalState('emailSent')
     }
 
     render() {
         return (
-            <StyledModalComponent onCancel={() => this.handleModalClose()} title={'Password reset'}>
-                <span></span>
-                <StyledInputComponent variant={'light'} label={'Email Address'}/>
+            <StyledModalComponent onCancel={(event) => this.handleModalClose(event)} title={'Password reset'}>
+                <StyledModalComponent.Body>
+                    <span className={'styled-modal-body-text'}>Please enter the email address associated with your globaledit account to reset your password.</span>
+                    <StyledInputComponent variant={'light'} label={'Email Address'}/>
+                </StyledModalComponent.Body>
                 <StyledModalComponent.Footer>
-                    <StyledButtonComponent type={'info'} title={'Submit'} />
-                    <StyledButtonComponent type={'default'} title={'Cancel'} />
+                    <StyledButtonComponent onClick={event => this.handleSendEmail(event)} type={'info'} title={'Submit'} />
+                    <StyledButtonComponent onClick={event => this.handleModalClose(event)} type={'default'} title={'Cancel'} />
                 </StyledModalComponent.Footer>
             </StyledModalComponent>
         );
